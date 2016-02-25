@@ -6,4 +6,6 @@
     <string name="loginmsg">Resister/Login in with</string>
     <string name="app_id">532073846971147</string>
     <string name="server_client_id">593810859031-p4mpjruthtugo5qvg9r1uqdklvihc30s.apps.googleusercontent.com</string>
+    <string name="parse_application_id">hGtXZAgKrUE3O6Wko09msqe3XmTnNFPtnTCTx3QW</string>
+    <string name="parse_client_key">Om9CsGAWx0DTaisBnI3bqYZAbpv9q8ZnCgXwpCzw</string>
 </resources>
