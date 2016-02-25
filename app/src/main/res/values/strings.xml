@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">I2V</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="loginmsg">Resister/Login in with</string>
+    <string name="app_id">532073846971147</string>
+    <string name="server_client_id">593810859031-p4mpjruthtugo5qvg9r1uqdklvihc30s.apps.googleusercontent.com</string>
+</resources>

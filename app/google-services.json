@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_id": "i2vdemo",
+    "project_number": "593810859031",
+    "name": "I2VDemo"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593810859031:android:e2b2cba20df4b849",
+        "client_id": "android:com.example.onzzz.i2vdemo",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.example.onzzz.i2vdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593810859031-p4mpjruthtugo5qvg9r1uqdklvihc30s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.onzzz.i2vdemo",
+            "certificate_hash": "029592E9F1F3B99A7A19B46B272DA13015B95D17"
+          }
+        },
+        {
+          "client_id": "593810859031-rgc14u9vm1si4ce5b3vsqi001rdhov12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
