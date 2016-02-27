@@ -32,7 +32,6 @@
         <activity
             android:name=".MainActivity"
             android:label="main page" >
-           // android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +41,6 @@
         <activity
             android:name=".CreateEventActivity"
             android:label="CreateEvent Page" >
-            //android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".EventActivity"
@@ -59,6 +57,10 @@
         <activity
             android:name=".AddMemberActivity"
             android:label="AddMember Page" >
+        </activity>
+        <activity
+            android:name=".UserInfoActivity"
+            android:label="User Information" >
         </activity>
     </application>
 

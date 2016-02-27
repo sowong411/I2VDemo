@@ -19,12 +19,11 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:gravity="center"
             android:src="@drawable/memadd" />
-        <TextView
+        <EditText
             android:id="@+id/memlist"
-            android:text="member name"
-            android:clickable="true"
+            android:hint="Member Name"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <TextView

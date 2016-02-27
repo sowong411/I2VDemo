@@ -1,7 +1,6 @@
 package com.example.onzzz.i2vdemo;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -10,12 +9,22 @@ import android.content.Intent;
 
 public class MainActivity extends ActionBarActivity {
 
+    String name;
+    String account_id;
+    String profilePicUri;
+    String loginMethod;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        name = intent.getStringExtra("Name");
+        account_id = intent.getStringExtra("Id");
+        profilePicUri = intent.getStringExtra("ProfilePicUri");
+        loginMethod = intent.getStringExtra("LoginMethod");
 
         findViewById(R.id.create_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +52,14 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.userButton) {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, UserInfoActivity.class);
+            intent.putExtra("Name", name);
+            intent.putExtra("Id", account_id);
+            intent.putExtra("ProfilePicUri", profilePicUri);
+            intent.putExtra("LoginMethod", loginMethod);
+            startActivity(intent);
+
             return true;
         }
         switch (item.getItemId()) {

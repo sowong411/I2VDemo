@@ -1,6 +1,5 @@
 package com.example.onzzz.i2vdemo;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,13 +7,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -26,9 +24,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener {
@@ -38,12 +40,9 @@ public class LoginActivity extends AppCompatActivity implements
     private static final int RC_SIGN_IN = 9001;
     private SignInButton googleLoginButton;
     private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
-    private ProgressDialog mProgressDialog;
 
     private LoginButton fbLoginButton;
     private CallbackManager callbackManager;
-    private AccessToken accessToken;
 
     private boolean fbLogin;
     private boolean googleLogin;
@@ -56,7 +55,6 @@ public class LoginActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_login);
 
         /***Google Login***/
-        mStatusTextView = (TextView) findViewById(R.id.status);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -88,8 +86,39 @@ public class LoginActivity extends AppCompatActivity implements
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                final Profile profile = Profile.getCurrentProfile();
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Account");
+                query.whereEqualTo("Id", profile.getId());
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+
+                        boolean accountExist = false;
+
+                        for (int i=0; i<objects.size(); i++){
+                            if (objects.get(i).getString("Id").equals(profile.getId())){
+                                accountExist = true;
+                            }
+                        }
+
+                        if (!accountExist){
+                            ParseObject user = new ParseObject("Account");
+                            user.put("Name", profile.getName());
+                            user.put("Id", profile.getId());
+                            user.put("ProfilePicUri", profile.getProfilePictureUri(400,400).toString());
+                            user.put("LoginMethod", "Facebook");
+                            user.saveInBackground();
+                        }
+                    }
+                });
+
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this, MainActivity.class);
+                intent.putExtra("Name", profile.getName());
+                intent.putExtra("Id", profile.getId());
+                intent.putExtra("ProfilePicUri", profile.getProfilePictureUri(400,400).toString());
+                intent.putExtra("LoginMethod", "Facebook");
                 startActivity(intent);
             }
 
@@ -127,13 +156,6 @@ public class LoginActivity extends AppCompatActivity implements
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.userButton) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -174,37 +196,45 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-
-        /*OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }*/
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusTextView.setText("Signed in as: " + acct.getDisplayName());
+            final GoogleSignInAccount acct = result.getSignInAccount();
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Account");
+            query.whereEqualTo("Id", acct.getId());
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+
+                    boolean accountExist = false;
+
+                    for (int i=0; i<objects.size(); i++){
+                        if (objects.get(i).getString("Id").equals(acct.getId())){
+                            accountExist = true;
+                        }
+                    }
+
+                    if (!accountExist){
+                        ParseObject user = new ParseObject("Account");
+                        user.put("Name", acct.getDisplayName());
+                        user.put("Id", acct.getId());
+                        user.put("ProfilePicUri", acct.getPhotoUrl().toString());
+                        user.put("LoginMethod", "Google");
+                        user.saveInBackground();
+                    }
+                }
+            });
+
             Intent intent = new Intent();
             intent.setClass(LoginActivity.this, MainActivity.class);
+            intent.putExtra("Name", acct.getDisplayName());
+            intent.putExtra("Id", acct.getId());
+            intent.putExtra("ProfilePicUri", acct.getPhotoUrl().toString());
+            intent.putExtra("LoginMethod", "Google");
             startActivity(intent);
         } else {
 
@@ -221,21 +251,5 @@ public class LoginActivity extends AppCompatActivity implements
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
     }
 }

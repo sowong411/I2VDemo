@@ -25,10 +25,7 @@ public class AddMemberActivity extends ActionBarActivity {
         findViewById(R.id.addmem_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                // TODO
-                intent.setClass(AddMemberActivity.this, AddMemberActivity.class);
-                startActivity(intent);
+
             }
         });
 
