@@ -30,6 +30,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements
     private boolean googleLogin;
 
     private String userObjectId;
+    private String[] eventId = new String[50];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements
                             user.put("Id", profile.getId());
                             user.put("ProfilePicUri", profile.getProfilePictureUri(400, 400).toString());
                             user.put("LoginMethod", "Facebook");
-                            user.put("Event", "");
+                            user.addAllUnique("Event", Arrays.asList(eventId));
                             user.saveInBackground();
                             ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");
                             accountQuery.whereEqualTo("Id", profile.getId());
@@ -221,7 +223,7 @@ public class LoginActivity extends AppCompatActivity implements
                         user.put("Id", acct.getId());
                         user.put("ProfilePicUri", acct.getPhotoUrl().toString());
                         user.put("LoginMethod", "Google");
-                        user.put("Event", "");
+                        user.addAllUnique("Event", Arrays.asList(eventId));
                         user.saveInBackground();
                         ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");
                         accountQuery.whereEqualTo("Id", acct.getId());

@@ -5,12 +5,9 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ViewSwitcher
-        android:id="@+id/viewSwitcher"
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_weight="1" >
 
         <GridView
@@ -29,7 +26,7 @@
             tools:listitem="@layout/gallery_item" >
         </GridView>
 
-    </ViewSwitcher>
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/llBottomContainer"
@@ -39,18 +36,11 @@
         android:padding="5dp" >
 
         <Button
-            android:id="@+id/btnGalleryPickMul"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnGalleryOk"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Select Multiple Photos" />
-
-        <Button
-            android:id="@+id/btnUpload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Upload"/>
+            android:layout_weight="1"
+            android:text="OK" />
     </LinearLayout>
 
 </LinearLayout>

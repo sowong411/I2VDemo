@@ -75,7 +75,7 @@ public class CreateEventActivity extends ActionBarActivity {
                                         @Override
                                         public void done(ParseObject object, ParseException e) {
                                             if (e == null) {
-                                                object.put("Event", eventName);
+                                                object.add("Event", eventName);
                                                 object.saveInBackground();
                                             }
                                         }
