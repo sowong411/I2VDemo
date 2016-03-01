@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity implements
     private boolean fbLogin;
     private boolean googleLogin;
 
+    private String userObjectId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -93,33 +95,37 @@ public class LoginActivity extends AppCompatActivity implements
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
-
-                        boolean accountExist = false;
-
-                        for (int i=0; i<objects.size(); i++){
-                            if (objects.get(i).getString("Id").equals(profile.getId())){
-                                accountExist = true;
-                            }
-                        }
-
-                        if (!accountExist){
+                        if (objects.size() == 0) {
                             ParseObject user = new ParseObject("Account");
                             user.put("Name", profile.getName());
                             user.put("Id", profile.getId());
-                            user.put("ProfilePicUri", profile.getProfilePictureUri(400,400).toString());
+                            user.put("ProfilePicUri", profile.getProfilePictureUri(400, 400).toString());
                             user.put("LoginMethod", "Facebook");
+                            user.put("Event", "");
                             user.saveInBackground();
+                            ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");
+                            accountQuery.whereEqualTo("Id", profile.getId());
+                            accountQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> objects, ParseException e) {
+                                    if (e == null) {
+                                        userObjectId = objects.get(0).getObjectId();
+                                        Intent intent = new Intent();
+                                        intent.setClass(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("UserObjectId", userObjectId);
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+                        } else {
+                            userObjectId = objects.get(0).getObjectId();
+                            Intent intent = new Intent();
+                            intent.setClass(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("UserObjectId", userObjectId);
+                            startActivity(intent);
                         }
                     }
                 });
-
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, MainActivity.class);
-                intent.putExtra("Name", profile.getName());
-                intent.putExtra("Id", profile.getId());
-                intent.putExtra("ProfilePicUri", profile.getProfilePictureUri(400,400).toString());
-                intent.putExtra("LoginMethod", "Facebook");
-                startActivity(intent);
             }
 
             @Override
@@ -209,33 +215,37 @@ public class LoginActivity extends AppCompatActivity implements
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
-
-                    boolean accountExist = false;
-
-                    for (int i=0; i<objects.size(); i++){
-                        if (objects.get(i).getString("Id").equals(acct.getId())){
-                            accountExist = true;
-                        }
-                    }
-
-                    if (!accountExist){
+                    if (objects.size() == 0) {
                         ParseObject user = new ParseObject("Account");
                         user.put("Name", acct.getDisplayName());
                         user.put("Id", acct.getId());
                         user.put("ProfilePicUri", acct.getPhotoUrl().toString());
                         user.put("LoginMethod", "Google");
+                        user.put("Event", "");
                         user.saveInBackground();
+                        ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");
+                        accountQuery.whereEqualTo("Id", acct.getId());
+                        accountQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> objects, ParseException e) {
+                                if (e == null) {
+                                    userObjectId = objects.get(0).getObjectId();
+                                    Intent intent = new Intent();
+                                    intent.setClass(LoginActivity.this, MainActivity.class);
+                                    intent.putExtra("UserObjectId", userObjectId);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+                    } else {
+                        userObjectId = objects.get(0).getObjectId();
+                        Intent intent = new Intent();
+                        intent.setClass(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("UserObjectId", userObjectId);
+                        startActivity(intent);
                     }
                 }
             });
-
-            Intent intent = new Intent();
-            intent.setClass(LoginActivity.this, MainActivity.class);
-            intent.putExtra("Name", acct.getDisplayName());
-            intent.putExtra("Id", acct.getId());
-            intent.putExtra("ProfilePicUri", acct.getPhotoUrl().toString());
-            intent.putExtra("LoginMethod", "Google");
-            startActivity(intent);
         } else {
 
         }

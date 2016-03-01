@@ -10,8 +10,7 @@ public class UseParse extends android.app.Application {
     public void onCreate(){
         super.onCreate();
 
-        Parse.initialize(this,
-                getResources().getString(R.string.parse_application_id),
-                getResources().getString(R.string.parse_client_key));
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
     }
 }

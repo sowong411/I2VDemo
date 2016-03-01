@@ -9,10 +9,7 @@ import android.content.Intent;
 
 public class MainActivity extends ActionBarActivity {
 
-    String name;
-    String account_id;
-    String profilePicUri;
-    String loginMethod;
+    String userObjectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +18,14 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        name = intent.getStringExtra("Name");
-        account_id = intent.getStringExtra("Id");
-        profilePicUri = intent.getStringExtra("ProfilePicUri");
-        loginMethod = intent.getStringExtra("LoginMethod");
+        userObjectId = intent.getStringExtra("UserObjectId");
 
         findViewById(R.id.create_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, CreateEventActivity.class);
+                intent.putExtra("UserObjectId", userObjectId);
                 startActivity(intent);
             }
         });
@@ -54,12 +49,8 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.userButton) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, UserInfoActivity.class);
-            intent.putExtra("Name", name);
-            intent.putExtra("Id", account_id);
-            intent.putExtra("ProfilePicUri", profilePicUri);
-            intent.putExtra("LoginMethod", loginMethod);
+            intent.putExtra("UserObjectId", userObjectId);
             startActivity(intent);
-
             return true;
         }
         switch (item.getItemId()) {

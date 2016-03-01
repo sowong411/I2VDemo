@@ -12,11 +12,17 @@ import android.view.View;
  */
 public class EventActivity extends ActionBarActivity {
 
+    String userObjectId;
+    String eventObjectId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         Intent intent = getIntent();
+        userObjectId = intent.getStringExtra("UserObjectId");
+        eventObjectId = intent.getStringExtra("EventObjectId");
+
         assert (intent != null);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -37,12 +43,24 @@ public class EventActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.take_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         findViewById(R.id.mem_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(EventActivity.this, AddMemberActivity.class);
                 startActivity(intent);
+            }
+        });
+        findViewById(R.id.info_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

@@ -3,6 +3,7 @@
     package="com.example.onzzz.i2vdemo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".UseParse"
@@ -10,6 +11,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="hGtXZAgKrUE3O6Wko09msqe3XmTnNFPtnTCTx3QW" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="Om9CsGAWx0DTaisBnI3bqYZAbpv9q8ZnCgXwpCzw" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -31,36 +39,31 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="main page" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".CreateEventActivity"
-            android:label="CreateEvent Page" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".EventActivity"
-            android:label="Event Page" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".PhotoUploadActivity"
-            android:label="PhotoUpload Page" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".CreateVideoActivity"
-            android:label="CreateVideo Page" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".AddMemberActivity"
-            android:label="AddMember Page" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".UserInfoActivity"
-            android:label="User Information" >
+            android:label="@string/app_name" >
         </activity>
     </application>
 
