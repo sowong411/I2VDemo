@@ -113,6 +113,14 @@ public class PhotoUploadActivity extends AppCompatActivity {
                     Bitmap bmp = BitmapFactory.decodeFile(getFile(i).getAbsolutePath());
                     String encodedString = encodeTobase64(bmp);
                     photo.put("Image", encodedString);
+                    photo.put("Location", "");
+                    photo.put("Time", "");
+                    photo.put("UploadedBy", "");
+                    photo.put("FaceNumber", 0);
+                    photo.put("AverageSmileLevel", 0);
+                    photo.put("MaleNumber", 0);
+                    photo.put("FemaleNumber", 0);
+                    photo.put("AverageAge", 0);
                     photo.saveInBackground();
                 }
             }

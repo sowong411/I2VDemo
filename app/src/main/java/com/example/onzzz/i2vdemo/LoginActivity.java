@@ -223,7 +223,6 @@ public class LoginActivity extends AppCompatActivity implements
                         user.put("Id", acct.getId());
                         user.put("ProfilePicUri", acct.getPhotoUrl().toString());
                         user.put("LoginMethod", "Google");
-                        user.addAllUnique("Event", Arrays.asList(eventId));
                         user.saveInBackground();
                         ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");
                         accountQuery.whereEqualTo("Id", acct.getId());

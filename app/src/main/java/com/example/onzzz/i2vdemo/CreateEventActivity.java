@@ -26,7 +26,9 @@ import java.util.List;
 public class CreateEventActivity extends ActionBarActivity {
 
     String userObjectId;
+    String eventObjectId;
 
+    int newEventIndex;
     String[] memberId = new String[20];
     int numOfMember = 1;
 
@@ -62,46 +64,30 @@ public class CreateEventActivity extends ActionBarActivity {
                 event.put("Video", "");
                 event.saveInBackground();
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Account");
-                query.whereExists("Name");
-                query.findInBackground(new FindCallback<ParseObject>() {
+                ParseQuery<ParseObject> eventQuery = ParseQuery.getQuery("Event");
+                eventQuery.whereExists("EventName");
+                eventQuery.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
-                        for (int i = 0; i < objects.size(); i++) {
-                            for (int j = 0; j < numOfMember; j++) {
-                                if (objects.get(i).getObjectId().equals(memberId[j])) {
-                                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Account");
-                                    query.getInBackground(objects.get(i).getObjectId(), new GetCallback<ParseObject>() {
-                                        @Override
-                                        public void done(ParseObject object, ParseException e) {
-                                            if (e == null) {
-                                                object.add("Event", eventName);
-                                                object.saveInBackground();
-                                            }
-                                        }
-                                    });
-                                } else {
-
-                                }
-                            }
-                            ParseQuery<ParseObject> eventQuery = ParseQuery.getQuery("Event");
-                            eventQuery.whereEqualTo("EventName", eventName);
-                            eventQuery.findInBackground(new FindCallback<ParseObject>() {
+                        newEventIndex = objects.size()-1;
+                        eventObjectId = objects.get(newEventIndex).getObjectId();
+                        for (int i=0; i<numOfMember; i++){
+                            ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");
+                            accountQuery.getInBackground(memberId[i], new GetCallback<ParseObject>() {
                                 @Override
-                                public void done(List<ParseObject> objects, ParseException e) {
+                                public void done(ParseObject object, ParseException e) {
                                     if (e == null) {
-                                        if (objects.size() == 1) {
-                                            Intent intent = new Intent();
-                                            intent.setClass(CreateEventActivity.this, EventActivity.class);
-                                            intent.putExtra("UserObjectId", userObjectId);
-                                            intent.putExtra("EventObjectId", objects.get(0).getObjectId());
-                                            startActivity(intent);
-                                        }
+                                        object.add("Event", eventObjectId);
+                                        object.saveInBackground();
+                                        Intent intent = new Intent();
+                                        intent.setClass(CreateEventActivity.this, EventActivity.class);
+                                        intent.putExtra("UserObjectId", userObjectId);
+                                        intent.putExtra("EventObjectId", eventObjectId);
+                                        startActivity(intent);
                                     }
                                 }
                             });
                         }
-
                     }
                 });
 
