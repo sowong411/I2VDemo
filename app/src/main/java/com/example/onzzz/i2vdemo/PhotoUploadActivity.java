@@ -48,11 +48,16 @@ public class PhotoUploadActivity extends AppCompatActivity {
 
     String[] photoUri = new String[MAX_PHOTO_SELECTED];
 
+    String userObjectId;
+    String eventObjectId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_photo);
         Intent intent = getIntent();
+        userObjectId = intent.getStringExtra("UserObjectId");
+        eventObjectId = intent.getStringExtra("EventObjectId");
         assert (intent != null);
 
         /*findViewById(R.id.upload_photo_button).setOnClickListener(new View.OnClickListener() {
@@ -115,7 +120,8 @@ public class PhotoUploadActivity extends AppCompatActivity {
                     photo.put("Image", encodedString);
                     photo.put("Location", "");
                     photo.put("Time", "");
-                    photo.put("UploadedBy", "");
+                    photo.put("Event", eventObjectId);
+                    photo.put("UploadedBy", userObjectId);
                     photo.put("FaceNumber", 0);
                     photo.put("AverageSmileLevel", 0);
                     photo.put("MaleNumber", 0);

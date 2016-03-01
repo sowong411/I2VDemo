@@ -221,7 +221,12 @@ public class LoginActivity extends AppCompatActivity implements
                         ParseObject user = new ParseObject("Account");
                         user.put("Name", acct.getDisplayName());
                         user.put("Id", acct.getId());
-                        user.put("ProfilePicUri", acct.getPhotoUrl().toString());
+                        if (acct.getPhotoUrl().toString().equals(null)){
+                            user.put("ProfilePicUri", "https://lh6.googleusercontent.com/-g1Eh6Y0oSL4/AAAAAAAAAAI/AAAAAAAAAEM/-lgA-GmO_2o/photo.jpg");
+                        }
+                        else {
+                            user.put("ProfilePicUri", acct.getPhotoUrl().toString());
+                        }
                         user.put("LoginMethod", "Google");
                         user.saveInBackground();
                         ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");

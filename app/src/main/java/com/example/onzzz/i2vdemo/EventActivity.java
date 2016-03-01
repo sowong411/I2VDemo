@@ -32,6 +32,8 @@ public class EventActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(EventActivity.this, PhotoUploadActivity.class);
+                intent.putExtra("UserObjectId", userObjectId);
+                intent.putExtra("EventObjectId", eventObjectId);
                 startActivity(intent);
             }
         });
