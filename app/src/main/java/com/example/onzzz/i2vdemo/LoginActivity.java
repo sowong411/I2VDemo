@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements
     private boolean googleLogin;
 
     private String userObjectId;
-    private String[] eventId = new String[50];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,6 @@ public class LoginActivity extends AppCompatActivity implements
                             user.put("Id", profile.getId());
                             user.put("ProfilePicUri", profile.getProfilePictureUri(400, 400).toString());
                             user.put("LoginMethod", "Facebook");
-                            user.addAllUnique("Event", Arrays.asList(eventId));
                             user.saveInBackground();
                             ParseQuery<ParseObject> accountQuery = ParseQuery.getQuery("Account");
                             accountQuery.whereEqualTo("Id", profile.getId());
@@ -222,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements
                         user.put("Name", acct.getDisplayName());
                         user.put("Id", acct.getId());
                         if (acct.getPhotoUrl().toString().equals(null)){
-                            user.put("ProfilePicUri", "https://lh6.googleusercontent.com/-g1Eh6Y0oSL4/AAAAAAAAAAI/AAAAAAAAAEM/-lgA-GmO_2o/photo.jpg");
+                            user.put("ProfilePicUri", "https://lh3.googleusercontent.com/-ey9WZml7lB0/AAAAAAAAAAI/AAAAAAAAAAA/J_iBGpIPDmA/photo.jpg");
                         }
                         else {
                             user.put("ProfilePicUri", acct.getPhotoUrl().toString());

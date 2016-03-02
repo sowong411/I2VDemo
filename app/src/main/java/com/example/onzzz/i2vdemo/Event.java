@@ -20,6 +20,11 @@ public class Event {
 
     //public data member
     public static Event event = new Event();
+
+    public Event(String name) {
+        this.name = name;
+    }
+
     public Event  getInstance() { return event; }
 
     //Constructor
@@ -42,4 +47,3 @@ public class Event {
     public String getFestival(){return festival;}
     public ArrayList<String> getUserIds(){return userIds ;}
 }
-
